@@ -3,6 +3,9 @@
 set -e
 set -x
 
+exec > /tmp/log                                                                      
+exec 2>&1
+
 URI=$@ # eg: gitlab://username/project:master/kubernetes/helm-chart
 PROVIDER=$(echo $URI | cut -d: -f1) # eg: gitlab
 REPO=$(echo $URI | cut -d: -f2 | sed -e "s/\/\///") # eg: username/project
