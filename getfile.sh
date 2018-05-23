@@ -2,16 +2,18 @@
 
 set -e
 
+touch /tmp/log
+
 URI=$@ # eg: gitlab://username/project:master/kubernetes/helm-chart
 PROVIDER=$(echo $URI | cut -d: -f1) # eg: gitlab
 REPO=$(echo $URI | cut -d: -f2 | sed -e "s/\/\///") # eg: username/project
 BRANCH=$(echo $URI | cut -d: -f3 | cut -d/ -f1) # eg: master
 FILEPATH=$(echo $URI | cut -d: -f3 | sed -e "s/$BRANCH\///") # eg: kubernetes/helm-chart
 
-echo URI=$URI >&2
-echo FILEPATH=$FILEPATH >&2
+echo URI=$URI >> /tmp/log
+echo FILEPATH=$FILEPATH >> /tmp/log
 
-echo $URI $REPO $BRANCH $FILEPATH >&2
+echo $URI $REPO $BRANCH $FILEPATH >> /tmp/log
 
 # make a temporary dir
 TMPDIR="$(mktemp -d)"
