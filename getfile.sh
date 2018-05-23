@@ -1,16 +1,17 @@
 #!/usr/bin/env sh
 
 set -e
-set -x
 
-exec > /tmp/log                                                                      
-exec 2>&1
+touch /tmp/log
 
 URI=$@ # eg: gitlab://username/project:master/kubernetes/helm-chart
 PROVIDER=$(echo $URI | cut -d: -f1) # eg: gitlab
 REPO=$(echo $URI | cut -d: -f2 | sed -e "s/\/\///") # eg: username/project
 BRANCH=$(echo $URI | cut -d: -f3 | cut -d/ -f1) # eg: master
 FILEPATH=$(echo $URI | cut -d: -f3 | sed -e "s/$BRANCH\///") # eg: kubernetes/helm-chart
+
+echo URI=$URI >> /tmp/log
+echo FILEPATH=$FILEPATH >> /tmp/log
 
 # echo $URI $REPO $BRANCH $FILEPATH >&2
 
